@@ -1,0 +1,36 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-styles/color.html">
+<link rel="import" href="../polymer-intl.html">
+
+<dom-module id="my-element">
+
+  <template>
+    <h2>Format date</h2>
+    <content></content>
+    
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'my-element',
+     properties:{
+      intlMsg:{
+        type: Object
+      }
+    },
+    
+    ready: function(){
+      this.date = new Date(this.date);
+    },
+
+    behaviors: [
+      Polymer.intlBehavior
+    ]
+
+  });
+
+</script>
