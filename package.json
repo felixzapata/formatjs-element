@@ -12,5 +12,12 @@
   "bugs": {
     "url": "https://github.com/felixzapata/polymer-intl/issues"
   },
-  "homepage": "https://github.com/felixzapata/polymer-intl#readme"
+  "homepage": "https://github.com/felixzapata/polymer-intl#readme",
+  "dependencies": {
+    "intl": "^1.1.0",
+    "intl-format-cache": "^2.0.5",
+    "intl-messageformat": "^1.3.0",
+    "intl-messageformat-parser": "^1.2.0",
+    "intl-relativeformat": "^1.3.0"
+  }
 }
