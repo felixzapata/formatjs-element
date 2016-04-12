@@ -1,0 +1,33 @@
+{
+  "name": "polymer-intl",
+  "version": "0.0.1",
+  "authors": [
+    "Félix Zapata <fzberlinches@gmail.com>"
+  ],
+  "description": "Polymer integration using Format.JS library.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "localization",
+    "format",
+    "l10n",
+    "i18n"
+  ],
+  "main": "polymer-intl.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/felixzapata/polymer-intl/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "^3.4.0"
+  }
+}

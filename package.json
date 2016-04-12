@@ -1,0 +1,16 @@
+{
+  "name": "polymer-intl",
+  "version": "0.0.1",
+  "description": "Polymer integration using Format.JS library",
+  "main": "polymer-intl.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixzapata/polymer-intl.git"
+  },
+  "author": "Felix Zapata",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felixzapata/polymer-intl/issues"
+  },
+  "homepage": "https://github.com/felixzapata/polymer-intl#readme"
+}
