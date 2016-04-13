@@ -17,58 +17,79 @@
      properties:{
       photos: {
         type: Number,
-        value: 0
+        value: 0,
+        observer: '_photosChanged'
       },
       name: {
         type: String,
-        value: 'Annie'
+        value: 'Annie',
+        observer: '_nameChanged'
       },
       locale: {
         type: String,
-        value: 'en-US'
+        value: 'en-US',
+        observer: '_localeChanged'
       },
       takenDate:{
         type: String
       },
       MESSAGES: {
         type:Object,
-        value:{
-          'cs-CZ':{
-            'photos': '{takenDate, date, long} {name} {numPhotos, plural, =0 {nevyfotila} other {vyfotila}} {numPhotos, plural, =0 {žádnou fotku} one {jednu fotku} few {# fotky} other {# fotek}}.'
-          },
-          'en-US': {
-             'photos': '{name} took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}.',
-             'photosNested': '{name} took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} {takenAgo}.',
-             'comments': '{numComments, plural, =0 {no comments} =1 {1 comment} other {# comments}}',
-             'commentsHTML': '{numComments, plural, =0 {no comments} =1 {<b>1</b> comment} other {<b>#</b> comments}}'
-          },
-          'es-AR': {
-            'photos': 'El {takenDate, date, long}, {name} {numPhotos, plural, =0 {no} other {}}sacó {numPhotos, plural, =0 {ninguna foto.} =1 {una foto.} other {# fotos.}}'
-          },
-          'fr-FR': {
-            'photos': 'Le {takenDate, date, long}, {name} {numPhotos, plural, =0 {n\'a pas pris de photographie.} =1 {a pris une photographie.} other {a pris # photographies.}}'
-          },
-          'ja-JP': {
-            'photos': '{name}は{takenDate, date, long}に{numPhotos, plural, =0 {1枚も写真を撮りませんでした。} =1 {1枚写真を撮りました。} other {#枚写真を撮りました。}}'
-          },
-          'pt-BR': {
-            'photos': '{name}は{takenDate, date, long}に{numPhotos, plural, =0 {1枚も写真を撮りませんでした。} =1 {1枚写真を撮りました。} other {#枚写真を撮りました。}}'
-          }          
+        value: function() {  
+          return {
+            'cs-CZ':{
+              'photos': '{takenDate, date, long} {name} {numPhotos, plural, =0 {nevyfotila} other {vyfotila}} {numPhotos, plural, =0 {žádnou fotku} one {jednu fotku} few {# fotky} other {# fotek}}.'
+            },
+            'en-US': {
+              'photos': '{name} took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}.',
+              'photosNested': '{name} took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} {takenAgo}.',
+              'comments': '{numComments, plural, =0 {no comments} =1 {1 comment} other {# comments}}',
+              'commentsHTML': '{numComments, plural, =0 {no comments} =1 {<b>1</b> comment} other {<b>#</b> comments}}'
+            },
+            'es-AR': {
+              'photos': 'El {takenDate, date, long}, {name} {numPhotos, plural, =0 {no} other {}} sacó {numPhotos, plural, =0 {ninguna foto.} =1 {una foto.} other {# fotos.}}'
+            },
+            'fr-FR': {
+              'photos': 'Le {takenDate, date, long}, {name} {numPhotos, plural, =0 {n\'a pas pris de photographie.} =1 {a pris une photographie.} other {a pris # photographies.}}'
+            },
+            'ja-JP': {
+              'photos': '{name}は{takenDate, date, long}に{numPhotos, plural, =0 {1枚も写真を撮りませんでした。} =1 {1枚写真を撮りました。} other {#枚写真を撮りました。}}'
+            },
+            'pt-BR': {
+              'photos': 'Em {takenDate, date, long}, {name} {numPhotos, plural, =0 {não} other {}} tirou {numPhotos, plural, =0 {nenhuma foto.} =1 {uma foto.} other {# fotos.}}'
+            }          
+          }
         }
-      },
-      intlMsg:{
-        type: Object
       }
     },
     
-    ready: function(){
-      var options = {numPhotos: this.photos, takenDate: this.takenData, name: this.name};
-      this.output = this.translate(this.MESSAGES[this.locale].photos, options, this.locale);
-    },
-
     behaviors: [
       Polymer.intlBehavior
-    ]
+    ],
+    
+    ready: function(){
+      this._getTranslation();
+    },
+
+    _nameChanged: function(newValue){
+      this.name = newValue;
+      this._getTranslation();
+    },
+    _localeChanged: function(newValue){
+      this.locale = newValue;
+      this._getTranslation();
+    },
+    _photosChanged: function(newValue){
+      this.photos = newValue;
+      this._getTranslation();
+    },
+    
+    _getTranslation: function(){
+      if(this.MESSAGES){
+        var options = {numPhotos: this.photos, takenDate: this.takenData, name: this.name};
+        this.output = this.translate(this.MESSAGES[this.locale].photos, options, this.locale);
+      }
+    }
 
   });
 
