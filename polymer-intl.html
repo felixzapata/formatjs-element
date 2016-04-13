@@ -43,7 +43,7 @@
           },
           defaultLang: {
             type: String,
-            value: 'en'
+            value: 'en-US'
           }
         },
 
@@ -51,6 +51,25 @@
           if (!window.Intl && typeof window.Intl !== 'object'){
             console.log('You have no support for ECMAScript Internationalization API Specification');
           }
+        },
+        ready: function(){
+          
+        },
+        /**
+        * Translate a string.
+        *
+        * @param {String} msg String to translate.
+        * @param {Object} values Values to pass to the message.
+        * @param {String} language (optional) The language to translate the text. By defualt, the language to localize is English.
+        * @return {String} Localized text.
+        */
+        translate: function(msg, values, language){
+          if (typeof language === 'undefined') {
+            language = this.defaultLang;
+          }
+          var intl = new IntlMessageFormat(msg, language);
+          return intl.format(values);
+          
         }
         
         
