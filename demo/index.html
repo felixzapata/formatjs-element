@@ -6,12 +6,20 @@
     <title>polymer-intl Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../polymer-intl.html">
+    <link rel="import" href="my-element.html">
   </head>
   <body>
 
     <p>An example of <code>polymer-intl</code> behavior:</p>
     
-    <my-element intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}">El 12 de abril de 2016, Annie sacó 1.000 fotos</my-element>
+    <!--my-element intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}">El 12 de abril de 2016, Annie sacó 1.000 fotos</my-element-->
+    
+    <!--my-element taken-date="[[dateToday]]" intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}">
+      <polymer-intl message="photos" options="{name: 'Annie', numPhotos: 1000}"></polymer-intl>
+    </my-element-->
+    
+    <my-element taken-date="[[dateToday]]" intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}" intl-options="{name: 'Annie', numPhotos: 1000}" intl-message="photos"></my-element>
+    
     
     <hr>
     
