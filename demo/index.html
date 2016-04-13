@@ -12,35 +12,47 @@
 
     <p>An example of <code>polymer-intl</code> behavior:</p>
     
-    <!--my-element intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}">El 12 de abril de 2016, Annie sacó 1.000 fotos</my-element-->
+    <template is="dom-bind" id="app">
     
-    <!--my-element taken-date="[[dateToday]]" intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}">
-      <polymer-intl message="photos" options="{name: 'Annie', numPhotos: 1000}"></polymer-intl>
-    </my-element-->
+      <my-element name="Annie" photos="[[photos]]" locale="[[locale]]"></my-element>
+      
+      <hr>
+      
+      <label for="photos">Photos: </label>
+      <select id="photos" on-change="setPhotos">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="3">3</option>
+        <option value="1000">1000</option>
+      </select>
+      
+      <label for="locale">Locale:</label>
+      <select id="locale" on-change="setLocale">
+        <option value="cs-CZ">cs-CZ</option>
+        <option value="en-US">en-US</option>
+        <option value="es-AR">es-AR</option>
+        <option value="fr-FR">fr-FR</option>
+        <option value="ja-JP">ja-JP</option>
+        <option value="pt-BR">pt-BR</option>  
+      </select>
     
-    <my-element taken-date="[[dateToday]]" intl-msg="{'currentLocale':'es-AR', 'currentNumPhotos': 1}" intl-options="{name: 'Annie', numPhotos: 1000}" intl-message="photos"></my-element>
+    </template>
     
-    
-    <hr>
-    
-    <label for="photos">Photos: </label>
-    <select id="photos">
-      <option value="0">0</option>
-      <option value="1">1</option>
-      <option value="3">3</option>
-      <option value="1000">1000</option>
-    </select>
-    
-    <label for="locale">Locale:</label>
-    <select id="locale">
-      <option value="cs-CZ">cs-CZ</option>
-      <option value="en-US">en-US</option>
-      <option value="es-AR">es-AR</option>
-      <option value="fr-FR">fr-FR</option>
-      <option value="ja-JP">ja-JP</option>
-      <option value="pt-BR">pt-BR</option>  
-    </select>
-    
+    <script>
+      var app = document.querySelector('#app');
+      app.photos = 0;
+      app.locale = 'cs-CZ';
+      
+      app.setPhotos = function(){
+        app.photos = parseInt(document.querySelector('#photos').value,10);
+      }
+      
+      app.setLocale = function(){
+        app.locale = document.querySelector('#locale').value;
+      }
+      
+      
+    </script>
 
   </body>
 </html>
