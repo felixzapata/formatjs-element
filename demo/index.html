@@ -14,9 +14,10 @@
     
     <template is="dom-bind" id="app">
     
-      <my-element name="Annie" photos="[[photos]]" locale="[[locale]]"></my-element>
+      <my-element name="Annie" photos="{{photos}}" locale="{{locale}}"></my-element>
       
       <hr>
+      
       
       <label for="photos">Photos: </label>
       <select id="photos" on-change="setPhotos">
@@ -41,6 +42,7 @@
     <script>
       var app = document.querySelector('#app');
       app.photos = 0;
+      app.name = 'Annie';
       app.locale = 'cs-CZ';
       
       app.setPhotos = function(){
