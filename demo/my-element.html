@@ -28,9 +28,6 @@
         value: 'en-US'
         
       },
-      takenDate:{
-        type: String
-      },
       MESSAGES: {
         type:Object,
         value: function() {  
@@ -62,17 +59,18 @@
     },
     
     observers: [
-      '_updateData(name, locale, photos)'
+      '_updateData(name, locale, photos, MESSAGES)'
     ],
     
     behaviors: [
       Polymer.intlBehavior
     ],
     
-    _updateData: function(name, locale, photos){
+    _updateData: function(name, locale, photos, MESSAGES){
        this.name = name;
        this.locale = locale;
        this.photos = photos;
+       this.MESSAGES = MESSAGES;
        this._getTranslation();
     },
     
@@ -81,10 +79,8 @@
     },
     
     _getTranslation: function(){
-      if(this.MESSAGES){
-        var options = {numPhotos: this.photos, takenDate: this.takenData, name: this.name};
-        this.output = this.translate(this.MESSAGES[this.locale].photos, options, this.locale);
-      }
+       var options = {numPhotos: this.photos, takenDate: Date.now(), name: this.name};
+       this.output = this.translate(this.MESSAGES[this.locale].photos, options, this.locale);
     }
 
   });
