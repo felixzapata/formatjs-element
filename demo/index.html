@@ -23,7 +23,7 @@
       <select id="photos" on-change="setPhotos">
         <option value="0">0</option>
         <option value="1">1</option>
-        <option value="3">3</option>
+        <option value="3" selected="selected">3</option>
         <option value="1000">1000</option>
       </select>
       
@@ -31,7 +31,7 @@
       <select id="locale" on-change="setLocale">
         <option value="cs-CZ">cs-CZ</option>
         <option value="en-US">en-US</option>
-        <option value="es-AR">es-AR</option>
+        <option value="es-AR" selected="selected">es-AR</option>
         <option value="fr-FR">fr-FR</option>
         <option value="ja-JP">ja-JP</option>
         <option value="pt-BR">pt-BR</option>  
@@ -41,9 +41,9 @@
     
     <script>
       var app = document.querySelector('#app');
-      app.photos = 0;
+      app.photos = 3;
       app.name = 'Annie';
-      app.locale = 'cs-CZ';
+      app.locale = 'es-AR';
       
       app.setPhotos = function(){
         app.photos = parseInt(document.querySelector('#photos').value,10);
