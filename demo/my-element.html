@@ -17,18 +17,16 @@
      properties:{
       photos: {
         type: Number,
-        value: 0,
-        observer: '_photosChanged'
+        value: 0
       },
       name: {
         type: String,
-        value: 'Annie',
-        observer: '_nameChanged'
+        value: 'Annie'
       },
       locale: {
         type: String,
-        value: 'en-US',
-        observer: '_localeChanged'
+        value: 'en-US'
+        
       },
       takenDate:{
         type: String
@@ -63,24 +61,22 @@
       }
     },
     
+    observers: [
+      '_updateData(name, locale, photos)'
+    ],
+    
     behaviors: [
       Polymer.intlBehavior
     ],
     
+    _updateData: function(name, locale, photos){
+       this.name = name;
+       this.locale = locale;
+       this.photos = photos;
+       this._getTranslation();
+    },
+    
     ready: function(){
-      this._getTranslation();
-    },
-
-    _nameChanged: function(newValue){
-      this.name = newValue;
-      this._getTranslation();
-    },
-    _localeChanged: function(newValue){
-      this.locale = newValue;
-      this._getTranslation();
-    },
-    _photosChanged: function(newValue){
-      this.photos = newValue;
       this._getTranslation();
     },
     
