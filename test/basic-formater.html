@@ -35,7 +35,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
       suite('Polymer.intlFormaterBehavior', function() {
-        test('formatting currencies', function() {
+        test('formatting basic text', function() {
+          var example = { 'notShowAgain': 'Do not show again this message' };
+          var myEl = fixture('formater', {msg: example});
+          var expected = "notShowAgain: 'Do not show again this message'";
+          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+        });
+        
+        test('formatting text with plurals', function() {
           var example = {
                       'NUM_PHOTOS': {
                         'msg': 'You have {numPhotos}',
