@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="test-formater">
 
   <template>
-    <p>{{msg}}</p>
+    <p>{{formatted}}</p>
   </template>
 
 </dom-module>
@@ -25,7 +25,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     is: 'test-formater',
      properties:{
       msg:{
-        type:Object
+        type:Object,
+        observer: '_msgChanged'
+      },
+      formatted:{
+        type:String,
+        value: ''
       }
     },
 
@@ -33,10 +38,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer.intlFormaterBehavior
     ],
     
-    ready:function(){
+    _msgChanged: function(newValue){
+      this.msg = newValue;
+      var formatMsg = this.formatIntl(this.msg);
+      this.set('formatted', formatMsg);
     },
     
-    stamp: function(){
+    ready:function(){
       
     }
 

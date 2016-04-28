@@ -35,14 +35,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
       suite('Polymer.intlFormaterBehavior', function() {
-        test('formatting basic text', function() {
+        
+        test('should use basic text', function() {
           var example = { 'notShowAgain': 'Do not show again this message' };
           var myEl = fixture('formater', {msg: example});
-          var expected = "notShowAgain: 'Do not show again this message'";
+          var expected = 'notShowAgain: \'Do not show again this message\'';
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
         
-        test('formatting text with plurals', function() {
+        test('should use simple argument', function() {
+          var example = { 'foobar': 'Hello {who}' };
+          var myEl = fixture('formater', {msg: example});
+          var expected = 'foobar: \'Hello {who}\'';
+          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+        });
+        
+        test('should use formatted argument', function() {
+          var example = { 'foobar': 'I have {numCats, number} cats.' };
+          var myEl = fixture('formater', {msg: example});
+          var expected = 'foobar: \'I have {numCats, number} cats.\'';
+          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+        });
+        
+        test('should format text with plurals', function() {
           var example = {
                       'NUM_PHOTOS': {
                         'msg': 'You have {numPhotos}',
@@ -52,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       }
           };
           var myEl = fixture('formater', {msg: example});
-          var expected = "NUM_PHOTOS: 'You have {numPhotos, plural, =0 {no photos.} =1 {one photo.}other {# photos.}}'";
+          var expected = '"NUM_PHOTOS: \'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}}\'"';
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
       });

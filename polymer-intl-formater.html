@@ -7,24 +7,71 @@
 
     Polymer.intlFormaterBehavior = {
    
-        properties: {
-          intlFormater: {
-            type: Object
-          }
-          
-        },
+      properties: {
+        intlFormater: {
+          type: Object
+        }
+        
+      },
+      
+      /**
+      * Returns if the message contain values for plurals.
+      *
+      * @param {Object} messages Strings to translate.
+      * @param {String} key Value to find inside the messages
+      * @return {Boolean}.
+      */
+      _noPlurals: function(messages, key){
+        return !messages[key].hasOwnProperty('zero');
+      },
+      
+      /**
+      * Parse plurals.
+      *
+      * @param {Object} messages Strings to translate.
+      * @param {String} key Value to find inside the messages
+      * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
+      */
+      _parsePlurals: function(msg, key){           
+        var text = msg[key].msg;
+        var single = ' =1 {' + msg[key].one + '}';
+        var zero = ' =0 {' + msg[key].zero + '}';
+        var other = ' other {' + msg[key].other + '}';
+        text = text.replace('}', ', plural,' + zero + single + other);
+        return '"' + key + ': \'' + text + '}\'"'; 
+      },
 
-        attached: function() {
-          
-        },
-        ready: function(){
-          
-        },
-        
-       formater: function(){
+      /**
+      * Parse a simple message (no plurals neither dates...).
+      *
+      * @param {Object} messages Strings to translate.
+      * @param {String} key Value to find inside the messages
+      * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
+      */
+      _parseSimple: function(msg, key){
+        return key + ": '" + msg[key] + "'";
+      },
+      
+      /**
+      * Format a message following ICU Message syntax and CLDR locale data
+      *
+      * @param {Object} messages Strings to translate.
+      * @return {String} Formated text. 
+      */
+      formatIntl: function(msg){
+        var keys = Object.keys(msg);
+        var formatMsg = '';
+        for(var i = 0, len = keys.length; i < len; i++){
+          if(this._noPlurals(msg, keys[i])){
+            formatMsg = this._parseSimple(msg, keys[i])
+          } else {
+            formatMsg = this._parsePlurals(msg, keys[i]);
+          }
+        } 
+        return formatMsg;  
+      }
          
-       }
-        
-        
     };
-  })();</script>
+  })();
+
+</script>
