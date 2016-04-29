@@ -72,20 +72,21 @@
         var values;
         var type;
         var format;
-
-        for(var i = 0, len = keys.length; i < len; i++) {
-          format = this._get(syntax[keys[i]], 'format');
-          values = this._get(syntax[keys[i]], 'values');
-          type = this._get(syntax[keys[i]], 'type');
-          
+        
+        for(var value in syntax){
+          if(syntax.hasOwnProperty(value)){
+            format = this._get(syntax[value], 'format');
+            values = this._get(syntax[value], 'values');
+            type = this._get(syntax[value], 'type');
+          }
           if(format !== ''){
-            formattedText = this._parseFormat(text, format, keys[i], values);
-            text = text.replace('{' + keys[i]  + '}', '{' + keys[i]  + ', ' + format + ', ' + formattedText + '}', 'g');
+            formattedText = this._parseFormat(text, format, value, values);
+            text = text.replace('{' + value  + '}', '{' + value  + ', ' + format + ', ' + formattedText + '}', 'g');
           } 
           if (type !== ''){
-            text = this._parseType(text, keys[i], type);
+            text = this._parseType(text, value, type);
           } 
-        }  
+        }
         return text
       },
 
@@ -104,18 +105,19 @@
       * Format a message following ICU Message syntax and CLDR locale data
       *
       * @param {Object} messages Strings to translate.
-      * @return {String} Formated text. 
+      * @return {Object} Formatted text. 
       */
       formatIntl: function(msg){
-        var keys = Object.keys(msg);
         var obj = {};
-        for(var i = 0, len = keys.length; i < len; i++){
-          if(this._noSyntax(msg, keys[i])){
-            obj[keys[i]] =  this._parseSimple(msg, keys[i])
-          } else {
-            obj[keys[i]] = this._parse(msg, keys[i]);
+        for(var i in msg){
+          if(msg.hasOwnProperty(i)){
+            if(this._noSyntax(msg, i)){
+              obj[i] =  this._parseSimple(msg, i)
+            } else {
+              obj[i] = this._parse(msg, i);
+            }
           }
-        } 
+        }
         return obj;  
       }
          
