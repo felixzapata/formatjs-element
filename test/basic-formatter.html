@@ -39,35 +39,79 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         test('should use basic text', function() {
           var example = { 'notShowAgain': 'Do not show again this message' };
           var myEl = fixture('formatter', {msg: example});
-          var expected = 'notShowAgain: \'Do not show again this message\'';
+          var expected = { 'notShowAgain': 'Do not show again this message' };
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
         
         test('should use simple argument', function() {
           var example = { 'foobar': 'Hello {who}' };
           var myEl = fixture('formatter', {msg: example});
-          var expected = 'foobar: \'Hello {who}\'';
+          var expected = { 'foobar': 'Hello {who}' };
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
         
         test('should use formatted argument', function() {
-          var example = { 'foobar': 'I have {numCats, number} cats.' };
+          var example = { 
+            'foobar': {
+              'message': 'I have {numCats} cats.',
+              'syntax': {
+                'numCats': {
+                  'type': 'number'
+                }
+              } 
+            }
+          };
           var myEl = fixture('formatter', {msg: example});
-          var expected = 'foobar: \'I have {numCats, number} cats.\'';
+          var expected = {'foobar': 'I have {numCats, number} cats.'}
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
         
         test('should format text with plurals', function() {
           var example = {
-                      'NUM_PHOTOS': {
-                        'msg': 'You have {numPhotos}',
-                        'zero' : 'no photos',
-                        'one' : 'one photo',
-                        'other' : '# photos'
-                      }
+            'NUM_PHOTOS': {
+              'message': 'You have {numPhotos}',
+              'syntax': {
+                'numPhotos': {
+                  'format': 'plural',
+                  'values': {
+                    'zero' : 'no photos',
+                    'one' : 'one photo',
+                    'other' : '# photos'
+                  }
+                }
+              }
+            }
           };
           var myEl = fixture('formatter', {msg: example});
-          var expected = '"NUM_PHOTOS: \'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}}\'"';
+          var expected = {
+            'NUM_PHOTOS': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}}'
+          }
+          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+        });
+        
+        test('should format text with plurals and other argument', function() {
+          var example = {
+            'photos': {
+              'message': 'You took {numPhotos} on {takenDate}',
+              'syntax': {
+                'numPhotos': {
+                  'format': 'plural',
+                  'values': {
+                    'zero' : 'no photos',
+                    'one' : 'one photo',
+                    'other' : '# photos'
+                  }
+                },
+                'takenDate':{
+                  'type': 'date, long'
+                }
+              }
+            }
+          };
+          var myEl = fixture('formatter', {msg: example});
+          var expected = {
+            'photos': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}'
+          }
           assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
         });
       });

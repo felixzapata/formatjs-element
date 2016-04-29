@@ -21,24 +21,72 @@
       * @param {String} key Value to find inside the messages
       * @return {Boolean}.
       */
-      _noPlurals: function(messages, key){
-        return !messages[key].hasOwnProperty('zero');
+      _noSyntax: function(messages, key){
+        return !messages[key].hasOwnProperty('message');
+      },
+      
+      _get: function(obj, property){
+        if(obj.hasOwnProperty(property)){
+          return obj[property];
+        }else {
+          return '';
+        }
+      },
+      
+      _parseType: function(text, key, type){
+        text = text.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
+        return "'" + text + "'";
+      },
+      
+      _parseFormat: function(text, format, key, values){
+        var pluralFormat = '';
+        var partial = text;
+        if(format === 'plural'){
+          return this._parsePlural(text, values);
+        }
+      },
+      
+      _parsePlural: function(msg, values){
+        var text = '';
+        var pluralFormat = '';
+        for(var i in values){
+          if(values.hasOwnProperty(i)) {
+            pluralFormat += ' ' + i + ' {' + values[i] + '}';
+          }
+        }
+        return pluralFormat;
       },
       
       /**
-      * Parse plurals.
+      * Parse.
       *
       * @param {Object} messages Strings to translate.
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
-      _parsePlurals: function(msg, key){           
-        var text = msg[key].msg;
-        var single = ' =1 {' + msg[key].one + '}';
-        var zero = ' =0 {' + msg[key].zero + '}';
-        var other = ' other {' + msg[key].other + '}';
-        text = text.replace('}', ', plural,' + zero + single + other);
-        return '"' + key + ': \'' + text + '}\'"'; 
+      _parse: function(msg, key){           
+        var text = msg[key].message;
+        var formattedText = key + ': ';
+        var syntax = msg[key].syntax;
+        var keys = Object.keys(syntax);
+        var values;
+        var type;
+        var format;
+
+        for(var i = 0, len = keys.length; i < len; i++) {
+          format = this._get(syntax[keys[i]], 'format');
+          values = this._get(syntax[keys[i]], 'values');
+          type = this._get(syntax[keys[i]], 'type');
+          
+          if(format !== ''){
+            formattedText = this._parseFormat(text, format, keys[i], values);
+            text = text.replace('{' + keys[i]  + '}', '{' + keys[i]  + ', ' + format + ', ' + formattedText + '}', 'g');
+          } 
+          if (type !== ''){
+            text = this._parseType(text, keys[i], type);
+          } 
+        }  
+        return text
       },
 
       /**
@@ -49,7 +97,7 @@
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
       _parseSimple: function(msg, key){
-        return key + ": '" + msg[key] + "'";
+        return msg[key];
       },
       
       /**
@@ -60,15 +108,15 @@
       */
       formatIntl: function(msg){
         var keys = Object.keys(msg);
-        var formatMsg = '';
+        var obj = {};
         for(var i = 0, len = keys.length; i < len; i++){
-          if(this._noPlurals(msg, keys[i])){
-            formatMsg = this._parseSimple(msg, keys[i])
+          if(this._noSyntax(msg, keys[i])){
+            obj[keys[i]] =  this._parseSimple(msg, keys[i])
           } else {
-            formatMsg = this._parsePlurals(msg, keys[i]);
+            obj[keys[i]] = this._parse(msg, keys[i]);
           }
         } 
-        return formatMsg;  
+        return obj;  
       }
          
     };
