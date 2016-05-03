@@ -31,6 +31,13 @@
         return !this.messages[key].hasOwnProperty('message');
       },
       
+      /**
+      * Returns the value of a property
+      *
+      * @param {Object} object
+      * @param {String} key
+      * @return {String}.
+      */
       _get: function(obj, property){
         if(obj.hasOwnProperty(property)){
           return obj[property];
@@ -39,11 +46,25 @@
         }
       },
       
+      /**
+      * Set the type
+      *
+      * @param {String} key messages Strings to translate.
+      * @param {String} type. It can be "number", "date", "time" or custom
+      * @return {String}.
+      */
       _parseType: function(key, type){
         this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
         return this.message;
       },
       
+      /**
+      * Parse the text according the format 
+      *
+      * @param {String} format. It can be "plural", "select" or "selectordinal"
+      * @param {String} key Value to find inside the messages
+      * @return {String}.
+      */
       _parseFormat: function(format, key, values){
         var pluralFormat = '';
         if(format === 'plural'){
@@ -51,6 +72,13 @@
         }
       },
       
+      /**
+      * Parse the text following {plural} Format.
+      *
+      * @param {Object} messages Strings to translate.
+      * @param {String} key Value to find inside the messages
+      * @return {String} For example: "zero {no value} one {one value} other {# myVarWithValues}"
+      */
       _parsePlural: function(msg, values){
         var pluralFormat = '';
         for(var i in values){
@@ -64,7 +92,6 @@
       /**
       * Parse.
       *
-      * @param {Object} messages Strings to translate.
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
@@ -97,7 +124,6 @@
       /**
       * Parse a simple message (no plurals neither dates...).
       *
-      * @param {Object} messages Strings to translate.
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
