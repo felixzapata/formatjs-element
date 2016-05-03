@@ -12,13 +12,12 @@
           type: Object
         },
         messages: {
-          type:Object
+          type: Object
         },
-        msg: {
-          type:String,
+        message: {
+          type: String,
           value: ''
-        }
-        
+        }        
       },
       
       /**
@@ -40,16 +39,15 @@
         }
       },
       
-      _parseType: function(text, key, type){
-        text = text.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
-        return "'" + text + "'";
+      _parseType: function(key, type){
+        this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
+        return "'" + this.message + "'";
       },
       
-      _parseFormat: function(text, format, key, values){
+      _parseFormat: function(format, key, values){
         var pluralFormat = '';
-        var partial = text;
         if(format === 'plural'){
-          return this._parsePlural(text, values);
+          return this._parsePlural(this.message, values);
         }
       },
       
@@ -72,7 +70,7 @@
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
       _parse: function(key){           
-        var text = this.messages[key].message;
+        this.message = this.messages[key].message;
         var formattedText = key + ': ';
         var syntax = this.messages[key].syntax;
         var keys = Object.keys(syntax);
@@ -80,21 +78,21 @@
         var type;
         var format;
         
-        for(var value in syntax){
-          if(syntax.hasOwnProperty(value)){
-            format = this._get(syntax[value], 'format');
-            values = this._get(syntax[value], 'values');
-            type = this._get(syntax[value], 'type');
+        for(var key in syntax){
+          if(syntax.hasOwnProperty(key)){
+            format = this._get(syntax[key], 'format');
+            values = this._get(syntax[key], 'values');
+            type = this._get(syntax[key], 'type');
           }
           if(format !== ''){
-            formattedText = this._parseFormat(text, format, value, values);
-            text = text.replace('{' + value  + '}', '{' + value  + ', ' + format + ', ' + formattedText + '}', 'g');
+            formattedText = this._parseFormat(format, key, values);
+            this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + format + ', ' + formattedText + '}', 'g');
           } 
           if (type !== ''){
-            text = this._parseType(text, value, type);
+            this.message = this._parseType(key, type);
           } 
         }
-        return text
+        return this.message;
       },
 
       /**

@@ -36,18 +36,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       suite('Polymer.intlFormaterBehavior', function() {
         
-        test('should use basic text', function() {
+        test.only('should use basic text', function() {
           var example = { 'notShowAgain': 'Do not show again this message' };
           var myEl = fixture('formatter', {msg: example});
           var expected = { 'notShowAgain': 'Do not show again this message' };
-          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+          assert.deepEqual(myEl.formatted, expected);
         });
         
         test('should use simple argument', function() {
           var example = { 'foobar': 'Hello {who}' };
           var myEl = fixture('formatter', {msg: example});
           var expected = { 'foobar': 'Hello {who}' };
-          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+          assert.deepEqual(myEl.formatted, expected);
         });
         
         test('should use formatted argument', function() {
@@ -63,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
           var myEl = fixture('formatter', {msg: example});
           var expected = {'foobar': 'I have {numCats, number} cats.'}
-          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+          assert.deepEqual(myEl.formatted, expected);
         });
         
         test('should format text with plurals', function() {
@@ -86,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var expected = {
             'NUM_PHOTOS': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}}'
           }
-          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+          assert.deepEqual(myEl.formatted, expected);
         });
         
         test('should format text with plurals and other argument', function() {
@@ -112,8 +112,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var expected = {
             'photos': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}'
           }
-          assert.equal(myEl.querySelectorAll('p')[0].firstChild.nodeValue, expected);
+          assert.deepEqual(myEl.formatted, expected);
         });
+        
+        test('should use multiple formatted arguments', function() {
+          var example = { 
+            'foobar': {
+              'message': 'I have {numCats} cats. And you took {numPhotos} on {takenDate}',
+              'syntax': {
+                'numCats': {
+                  'type': 'number'
+                },
+                'numPhotos': {
+                  'format': 'plural',
+                  'values': {
+                    'zero' : 'no photos',
+                    'one' : 'one photo',
+                    'other' : '# photos'
+                  }
+                },
+                'takenDate':{
+                  'type': 'date, long'
+                }
+              } 
+            }
+          };
+          var myEl = fixture('formatter', {msg: example});
+          var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}'};
+          
+          assert.deepEqual(myEl.formatted, expected);
+          
+          
+        });
+        
       });
     </script>
 
