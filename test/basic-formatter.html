@@ -84,7 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
           var myEl = fixture('formatter', {msg: example});
           var expected = {
-            'NUM_PHOTOS': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}}'
+            'NUM_PHOTOS': 'You have {numPhotos, plural, zero {no photos} one {one photo} other {# photos}}'
           }
           assert.deepEqual(myEl.formatted, expected);
         });
@@ -110,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
           var myEl = fixture('formatter', {msg: example});
           var expected = {
-            'photos': 'You have {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}'
+            'photos': 'You took {numPhotos, plural, zero {no photos} one {one photo} other {# photos}} on {takenDate, date, long}'
           }
           assert.deepEqual(myEl.formatted, expected);
         });
@@ -138,11 +138,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           };
           var myEl = fixture('formatter', {msg: example});
-          var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, =0 {no photos} =1 {one photo} other {# photos}} on {takenDate, date, long}'};
-          
+          var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, zero {no photos} one {one photo} other {# photos}} on {takenDate, date, long}'};
           assert.deepEqual(myEl.formatted, expected);
-          
-          
         });
         
       });

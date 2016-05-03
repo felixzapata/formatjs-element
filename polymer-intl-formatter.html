@@ -41,7 +41,7 @@
       
       _parseType: function(key, type){
         this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
-        return "'" + this.message + "'";
+        return this.message;
       },
       
       _parseFormat: function(format, key, values){
@@ -52,7 +52,6 @@
       },
       
       _parsePlural: function(msg, values){
-        var text = '';
         var pluralFormat = '';
         for(var i in values){
           if(values.hasOwnProperty(i)) {
@@ -86,7 +85,7 @@
           }
           if(format !== ''){
             formattedText = this._parseFormat(format, key, values);
-            this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + format + ', ' + formattedText + '}', 'g');
+            this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + format + ',' + formattedText + '}', 'g');
           } 
           if (type !== ''){
             this.message = this._parseType(key, type);
