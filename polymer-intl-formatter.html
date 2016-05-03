@@ -10,6 +10,13 @@
       properties: {
         intlFormater: {
           type: Object
+        },
+        messages: {
+          type:Object
+        },
+        msg: {
+          type:String,
+          value: ''
         }
         
       },
@@ -21,8 +28,8 @@
       * @param {String} key Value to find inside the messages
       * @return {Boolean}.
       */
-      _noSyntax: function(messages, key){
-        return !messages[key].hasOwnProperty('message');
+      _noSyntax: function(key){
+        return !this.messages[key].hasOwnProperty('message');
       },
       
       _get: function(obj, property){
@@ -64,10 +71,10 @@
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
-      _parse: function(msg, key){           
-        var text = msg[key].message;
+      _parse: function(key){           
+        var text = this.messages[key].message;
         var formattedText = key + ': ';
-        var syntax = msg[key].syntax;
+        var syntax = this.messages[key].syntax;
         var keys = Object.keys(syntax);
         var values;
         var type;
@@ -97,8 +104,8 @@
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
-      _parseSimple: function(msg, key){
-        return msg[key];
+      _parseSimple: function(key){
+        return this.messages[key];
       },
       
       /**
@@ -109,12 +116,13 @@
       */
       formatIntl: function(msg){
         var obj = {};
-        for(var i in msg){
+        this.messages = msg;
+        for(var i in this.messages){
           if(msg.hasOwnProperty(i)){
-            if(this._noSyntax(msg, i)){
-              obj[i] =  this._parseSimple(msg, i)
+            if(this._noSyntax(i)){
+              obj[i] =  this._parseSimple(i)
             } else {
-              obj[i] = this._parse(msg, i);
+              obj[i] = this._parse(i);
             }
           }
         }
