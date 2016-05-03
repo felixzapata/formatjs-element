@@ -62,24 +62,22 @@
       * Parse the text according the format 
       *
       * @param {String} format. It can be "plural", "select" or "selectordinal"
-      * @param {String} key Value to find inside the messages
       * @return {String}.
       */
-      _parseFormat: function(format, key, values){
+      _parseFormat: function(format, values){
         var pluralFormat = '';
         if(format === 'plural'){
-          return this._parsePlural(this.message, values);
+          return this._parsePlural(values);
         }
       },
       
       /**
       * Parse the text following {plural} Format.
       *
-      * @param {Object} messages Strings to translate.
-      * @param {String} key Value to find inside the messages
+      * @param {Object} key Value to find inside the messages
       * @return {String} For example: "zero {no value} one {one value} other {# myVarWithValues}"
       */
-      _parsePlural: function(msg, values){
+      _parsePlural: function(values){
         var pluralFormat = '';
         for(var i in values){
           if(values.hasOwnProperty(i)) {
@@ -111,7 +109,7 @@
             type = this._get(syntax[key], 'type');
           }
           if(format !== ''){
-            formattedText = this._parseFormat(format, key, values);
+            formattedText = this._parseFormat(format, values);
             this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + format + ',' + formattedText + '}', 'g');
           } 
           if (type !== ''){
