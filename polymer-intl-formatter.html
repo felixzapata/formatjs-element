@@ -3,9 +3,35 @@
 <script>
   (function() {
     'use strict';
+    
+    /**
+     * intl-formatter-behavior
+     * =======================
+     *
+     * `Polymer.intlFormatterBehavior` allow to parse a JSON object into ICU Message syntax and CLDR locale data.
+     *
+     * #### Usage
+     *
+     * 1) Add Polymer.intlFormatterBehavior to the behaviors list in the JS file or script of your component:
+     *
+     * ```js
+     * behaviors: [Polymer.intlFormatterBehavior]
+     * ```
+     *
+     * 2) Import the behavior in your HTML:
+     *
+     * ```html
+     * <link rel="import" href="../polymer-intl/polymer-intl-formatter.html">
+     * ```
+     *
+     *
+     * ```
+     *
+     * @polymerBehavior intlFormatterBehavior
+     * @demo
+    */
 
-
-    Polymer.intlFormaterBehavior = {
+    Polymer.intlFormatterBehavior = {
    
       properties: {
         intlFormater: {
