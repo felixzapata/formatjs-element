@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Step 1: import the element to test -->
     <link rel="import" href="test-formatter.html">
+    <link rel="import" href="test-formatter-custom-parse.html">
   </head>
   <body>
 
@@ -28,6 +29,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <test-fixture id="formatter">
       <template is="dom-template">
         <test-formatter msg="{{msg}}"></test-formatter>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="formatter-custom-parse">
+      <template is="dom-template">
+        <test-formatter-custom-parse msg="{{msg}}"></test-formatter-custom-parse>
       </template>
     </test-fixture>
     
@@ -40,6 +47,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var example = { 'notShowAgain': 'Do not show again this message' };
           var myEl = fixture('formatter', {msg: example});
           var expected = { 'notShowAgain': 'Do not show again this message' };
+          assert.deepEqual(myEl.formatted, expected);
+        });
+        
+        test.only('should use basic text with HTML inside', function() {
+          var example = { 'enrollmentSelectionMailbox': 'Entering the details of a <strong> card</strong> immediatel' };
+          var myEl = fixture('formatter', {msg: example});
+          var expected = { 'enrollmentSelectionMailbox': 'Entering the details of a <strong> card</strong> immediatel' };
           assert.deepEqual(myEl.formatted, expected);
         });
         
@@ -138,6 +152,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           };
           var myEl = fixture('formatter', {msg: example});
+          var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, zero {no photos} one {one photo} other {# photos}} on {takenDate, date, long}'};
+          assert.deepEqual(myEl.formatted, expected);
+        });
+        
+        test.skip('should use custom parse function', function() {
+          var example = { 
+            'foobar': {
+              'message': 'I have {numCats} cats. And you took {numPhotos} on {takenDate}',
+              'syntax': {
+                'numCats': {
+                  'type': 'number'
+                },
+                'numPhotos': {
+                  'format': 'plural',
+                  'values': {
+                    'zero' : 'no photos',
+                    'one' : 'one photo',
+                    'other' : '# photos'
+                  }
+                },
+                'takenDate':{
+                  'type': 'date, long'
+                }
+              } 
+            }
+          };
+          var myEl = fixture('formatter-custom-parse', {msg: example});
           var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, zero {no photos} one {one photo} other {# photos}} on {takenDate, date, long}'};
           assert.deepEqual(myEl.formatted, expected);
         });
