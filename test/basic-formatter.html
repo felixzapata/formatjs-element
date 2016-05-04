@@ -156,30 +156,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.deepEqual(myEl.formatted, expected);
         });
         
-        test.skip('should use custom parse function', function() {
+        test('should use custom parse function', function() {
           var example = { 
-            'foobar': {
-              'message': 'I have {numCats} cats. And you took {numPhotos} on {takenDate}',
-              'syntax': {
-                'numCats': {
-                  'type': 'number'
-                },
-                'numPhotos': {
-                  'format': 'plural',
-                  'values': {
-                    'zero' : 'no photos',
-                    'one' : 'one photo',
-                    'other' : '# photos'
-                  }
-                },
-                'takenDate':{
-                  'type': 'date, long'
-                }
-              } 
-            }
+            'numberOfSecurities': {
+              'one': '{{numberOfSecurities}} title',
+              'other': '{{numberOfSecurities}} titles'
+            },
+            'notShowAgain': 'Do not show again this message'
           };
           var myEl = fixture('formatter-custom-parse', {msg: example});
-          var expected = {'foobar': 'I have {numCats, number} cats. And you took {numPhotos, plural, zero {no photos} one {one photo} other {# photos}} on {takenDate, date, long}'};
+          var expected = {
+            'numberOfSecurities': '{numberOfSecurities, plural, one {one title} other {# titles}}',
+            'notShowAgain': 'Do not show again this message'
+          };
           assert.deepEqual(myEl.formatted, expected);
         });
         

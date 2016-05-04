@@ -1,0 +1,105 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-styles/color.html">
+<link rel="import" href="../polymer-intl-formatter.html">
+<link rel="import" href="../polymer-intl.html">
+
+<dom-module id="another-element">
+
+  <template>
+    <p><strong>Sin formatear:</strong> {{withoutFormat}}</p>
+    <p><strong>Formateado:</strong> {{withFormat}}</p>
+    <p><strong>Traducido: </strong> {{traducido}}</p>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'another-element',
+     properties:{
+      photos: {
+        type: Number,
+        value: 0
+      },
+      locale: {
+        type: String,
+        value: 'es-ES'
+        
+      },
+      MESSAGES: {
+        type:Object,
+        value: function() {  
+          return {
+            'en-US': {
+              'photos': {
+                'message': 'You took {numPhotos} on {takenDate, date, long}.',
+                'syntax': {
+                  'numPhotos':{
+                    'format': 'plural',
+                    'values': {
+                      'zero' : 'no photos',
+                      'one' : 'one photo',
+                      'other' : '# photos'
+                    }
+                  },
+                  'takenDate': {
+                    'type': 'date, long'
+                  }
+                }
+              }
+            },
+            'es-ES': {
+              'photos': {
+                'message': 'El {takenDate} sacó {numPhotos}.',
+                'syntax': {
+                  'numPhotos':{
+                    'format': 'plural',
+                    'values': {
+                      'zero' : 'ninguna foto',
+                      'one' : 'una foto',
+                      'other' : '# fotos.'
+                    }
+                  },
+                  'takenDate': {
+                    'type': 'date, long'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    observers: [
+      '_updateData(locale, photos, MESSAGES)'
+    ],
+    
+    behaviors: [
+      Polymer.intlBehavior,
+      Polymer.intlFormatterBehavior
+    ],
+    
+    _updateData: function(locale, photos, MESSAGES){
+       this.locale = locale;
+       this.photos = photos;
+       this.MESSAGES = MESSAGES;
+       this._getTranslation();
+    },
+    
+    ready: function(){
+      this._getTranslation();
+    },
+    
+    _getTranslation: function(){
+       var options = {numPhotos: this.photos, takenDate: Date.now()};
+       var format = this.formatIntl(this.MESSAGES[this.locale]);
+       this.withoutFormat =JSON.stringify(this.MESSAGES[this.locale], null, 2); 
+       this.withFormat = JSON.stringify(format, null, 2);
+       this.traducido = this.translate(format.photos, options, this.locale);
+    }
+
+  });
+
+</script>

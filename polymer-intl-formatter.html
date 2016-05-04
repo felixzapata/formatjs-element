@@ -116,7 +116,7 @@
       /**
       * Parse.
       *
-      * @param {String} key Value to find inside the messages
+      * @param {String} key Variable to find inside the messages object
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
       _parse: function(key){           
@@ -146,12 +146,12 @@
       },
 
       /**
-      * Parse a simple message (no plurals neither dates...).
+      * Parse a simple message (no plurals nor dates...).
       *
       * @param {String} key Value to find inside the messages
       * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
       */
-      _parseSimple: function(key){
+      parseSimple: function(key){
         return this.messages[key];
       },
       
@@ -167,7 +167,7 @@
         for(var i in this.messages){
           if(msg.hasOwnProperty(i)){
             if(this._noSyntax(i)){
-              obj[i] =  this._parseSimple(i)
+              obj[i] =  this.parseSimple(i)
             } else {
               obj[i] = this._parse(i);
             }
