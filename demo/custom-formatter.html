@@ -1,0 +1,103 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-styles/color.html">
+<link rel="import" href="../polymer-intl-formatter.html">
+<link rel="import" href="../polymer-intl.html">
+
+<dom-module id="custom-formatter">
+
+  <template>
+    <p><strong>Sin formatear:</strong> {{withoutFormat}}</p>
+    <p><strong>Formateado:</strong> {{withFormat}}</p>
+    <p><strong>Traducido: </strong> {{traducido}}</p>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'custom-formatter',
+     properties:{
+      items: {
+        type: Number,
+        value: 0
+      },
+      locale: {
+        type: String,
+        value: 'es-ES'
+        
+      },
+      MESSAGES: {
+        type:Object,
+        value: function() {  
+          return {
+            'en-US': {
+              'numberOfSecurities': {
+                'one': '{{numberOfSecurities}} title',
+                'other': '{{numberOfSecurities}} titles'
+              }
+            },
+            'es-ES': {
+              'numberOfSecurities': {
+                'one': '{{numberOfSecurities}} título',
+                'other': '{{numberOfSecurities}} títulos'
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    observers: [
+      '_updateData(locale, items, MESSAGES)'
+    ],
+    
+    behaviors: [
+      Polymer.intlBehavior,
+      Polymer.intlFormatterBehavior
+    ],
+    
+    _updateData: function(locale, items, MESSAGES){
+       this.locale = locale;
+       this.items = items;
+       this.MESSAGES = MESSAGES;
+       this._getTranslation();
+    },
+    
+    ready: function(){
+      this._getTranslation();
+    },
+    
+    _myCustomParsePluralForThisComponent: function(values){
+      var pluralFormat = '';
+      var partial = '';
+      for(var i in values){
+        if(values.hasOwnProperty(i)) {
+          partial = values[i].replace(/{{.*?}}/g, '#');
+          pluralFormat += ' ' + i + ' {' + partial + '}';
+        }
+      }
+      return pluralFormat;
+    },
+    
+    parseSimple: function(key){
+      var partial = '';
+      partial = this.messages[key];
+      if(typeof partial === 'object'){
+        formattedText = this._myCustomParsePluralForThisComponent(partial);
+        this.messages[key] = '{' + key  + ', plural,' + formattedText + '}';
+      }
+      return this.messages[key];
+    },
+    
+    _getTranslation: function(){
+       var options = {numberOfSecurities: this.items};
+       var format = this.formatIntl(this.MESSAGES[this.locale]);
+       this.withoutFormat =JSON.stringify(this.MESSAGES[this.locale], null, 2); 
+       this.withFormat = JSON.stringify(format, null, 2);
+       this.traducido = this.translate(format.numberOfSecurities, options, this.locale);
+    }
+
+  });
+
+</script>
