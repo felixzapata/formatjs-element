@@ -49,11 +49,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var partial = '';
       for(var i in values){
         if(values.hasOwnProperty(i)) {
-          if(i === 'other'){
-            partial = values[i].replace(/{{.*?}}/g, '#');
-          } else {
-            partial = values[i].replace(/{{.*?}}/g, i);
-          }
+          partial = values[i].replace(/{{.*?}}/g, '#');
           pluralFormat += ' ' + i + ' {' + partial + '}';
         }
       }
@@ -61,11 +57,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
     
     parseSimple: function(key){
-      var partial = '';
-      partial = this.msg[key];
+      var partial = this.messages[key];
       if(typeof partial === 'object'){
         formattedText = this._myCustomParsePluralForThisComponent(partial);
-        this.msg[key] = '{' + key  + ', plural,' + formattedText + '}';
+        this.messages[key] = '{' + key  + ', plural,' + formattedText + '}';
       }
       return this.msg[key];
     }

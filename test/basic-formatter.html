@@ -166,7 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
           var myEl = fixture('formatter-custom-parse', {msg: example});
           var expected = {
-            'numberOfSecurities': '{numberOfSecurities, plural, one {one title} other {# titles}}',
+            'numberOfSecurities': '{numberOfSecurities, plural, one {# title} other {# titles}}',
             'notShowAgain': 'Do not show again this message'
           };
           assert.deepEqual(myEl.formatted, expected);
