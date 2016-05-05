@@ -6,17 +6,18 @@
     <title>polymer-intl Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../polymer-intl.html">
-    <link rel="import" href="another-element.html">
+    <link rel="import" href="elements/my-element.html">
   </head>
   <body>
 
-    <p>An example of <code>polymer-intl-formatter</code> behavior to parse messages:</p>
+    <p>An example of <code>polymer-intl</code> behavior:</p>
     
     <template is="dom-bind" id="app">
     
-      <another-element photos="{{photos}}" locale="{{locale}}"></another-element>
+      <my-element name="Annie" photos="{{photos}}" locale="{{locale}}"></my-element>
       
       <hr>
+      
       
       <label for="photos">Photos: </label>
       <select id="photos" on-change="setPhotos">
@@ -28,23 +29,28 @@
       
       <label for="locale">Locale:</label>
       <select id="locale" on-change="setLocale">
+        <option value="cs-CZ">cs-CZ</option>
         <option value="en-US">en-US</option>
-        <option value="es-ES" selected="selected">es-ES</option>
+        <option value="es-AR" selected="selected">es-AR</option>
+        <option value="fr-FR">fr-FR</option>
+        <option value="ja-JP">ja-JP</option>
+        <option value="pt-BR">pt-BR</option>  
       </select>
     
     </template>
     
     <script>
       var app = document.querySelector('#app');
-      app.locale = 'es-ES';
       app.photos = 3;
-
-      app.setLocale = function(){
-        app.locale = document.querySelector('#locale').value;
-      }
+      app.name = 'Annie';
+      app.locale = 'es-AR';
       
       app.setPhotos = function(){
         app.photos = parseInt(document.querySelector('#photos').value,10);
+      }
+      
+      app.setLocale = function(){
+        app.locale = document.querySelector('#locale').value;
       }
       
       

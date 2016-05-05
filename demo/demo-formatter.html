@@ -6,20 +6,20 @@
     <title>polymer-intl Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../polymer-intl.html">
-    <link rel="import" href="custom-formatter.html">
+    <link rel="import" href="elements/another-element.html">
   </head>
   <body>
 
-    <p>An example of <code>polymer-intl-formatter</code> behavior to parse messages with custom parse function inside the component:</p>
+    <p>An example of <code>polymer-intl-formatter</code> behavior to parse messages:</p>
     
     <template is="dom-bind" id="app">
     
-      <custom-formatter items="{{items}}" locale="{{locale}}"></custom-formatter>
+      <another-element photos="{{photos}}" locale="{{locale}}"></another-element>
       
       <hr>
       
-      <label for="items">Items: </label>
-      <select id="items" on-change="setItems">
+      <label for="photos">Photos: </label>
+      <select id="photos" on-change="setPhotos">
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="3" selected="selected">3</option>
@@ -37,14 +37,14 @@
     <script>
       var app = document.querySelector('#app');
       app.locale = 'es-ES';
-      app.items = 3;
+      app.photos = 3;
 
       app.setLocale = function(){
         app.locale = document.querySelector('#locale').value;
       }
       
-      app.setItems = function(){
-        app.items = parseInt(document.querySelector('#items').value,10);
+      app.setPhotos = function(){
+        app.photos = parseInt(document.querySelector('#photos').value,10);
       }
       
       
