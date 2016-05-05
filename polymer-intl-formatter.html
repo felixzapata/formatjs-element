@@ -33,6 +33,11 @@
 
     Polymer.intlFormatterBehavior = {
    
+      /**
+      * Messages to be parsed
+      *
+      * @param {Object}
+      */
       properties: {
         messages: {
           type: Object
@@ -84,7 +89,6 @@
       * @return {String}.
       */
       _parseFormat: function(format, values){
-        var pluralFormat = '';
         if(format === 'plural'){
           return this._parsePlural(values);
         }
@@ -116,23 +120,22 @@
         this.message = this.messages[key].message;
         var formattedText = key + ': ';
         var syntax = this.messages[key].syntax;
-        var keys = Object.keys(syntax);
         var values;
         var type;
         var format;
         
-        for(var key in syntax){
-          if(syntax.hasOwnProperty(key)){
-            format = this._get(syntax[key], 'format');
-            values = this._get(syntax[key], 'values');
-            type = this._get(syntax[key], 'type');
+        for(var value in syntax){
+          if(syntax.hasOwnProperty(value)){
+            format = this._get(syntax[value], 'format');
+            values = this._get(syntax[value], 'values');
+            type = this._get(syntax[value], 'type');
           }
           if(format !== ''){
             formattedText = this._parseFormat(format, values);
-            this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + format + ',' + formattedText + '}', 'g');
+            this.message = this.message.replace('{' + value  + '}', '{' + value  + ', ' + format + ',' + formattedText + '}', 'g');
           } 
           if (type !== ''){
-            this.message = this._parseType(key, type);
+            this.message = this._parseType(value, type);
           } 
         }
         return this.message;
