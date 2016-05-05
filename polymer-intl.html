@@ -26,9 +26,56 @@
    * <link rel="import" href="../polymer-intl/polymer-intl-behavior.html">
    * ```
    *
+   * #### How to translate
+   * 
+   * `message`: is the complete text to translate. It can include all the variables necessary to show dynamic values.
+   * 
+   * `syntax`: this object has the instructions to parse the string following the ICU Message syntax and CLDR locale data.
+   * 
+   * For each variable you should define the format ('plural', 'selectordinal' or 'select')
+   * 
+   * #### Examples
+   * 
+   * ```javascript
+   *      var example = 
+   *         'photos': {
+   *           'message': 'You took {numPhotos} on {takenDate}.',
+   *           'syntax': {
+   *             'numPhotos':{
+   *               'format': 'plural',
+   *               'values': {
+   *                 'zero' : 'no photos',
+   *                 'one' : 'one photo',
+   *                 'other' : '# photos'
+   *               }
+   *             },
+   *             'takenDate': {
+   *               'type': 'date, long'
+   *             }
+   *           }
+   *         }
+   * ``` 
    *
+   * ```javascript
+   *      var example = { 'notShowAgain': 'Do not show again this message' };
    * ```
    * 
+   * ```javascript
+   *      var example = { 'foobar': 'Hello {who}' };
+   * ```
+   * 
+   * ```javascript
+   *      var example = { 
+   *         'foobar': {
+   *           'message': 'I have {numCats} cats.',
+   *           'syntax': {
+   *             'numCats': {
+   *               'type': 'number'
+   *             }
+   *           } 
+   *         }
+   *       };
+   * ```
    * @demo demo/index.html
    * @polymerBehavior Polymer.intlBehavior
    */
@@ -36,12 +83,6 @@
     Polymer.intlBehavior = {
    
         properties: {
-          intlMsg: {
-            type: Object,
-            value: function() {
-              return {};
-            }
-          },
           defaultLang: {
             type: String,
             value: 'en-US'
