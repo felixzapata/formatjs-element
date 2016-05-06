@@ -1,4 +1,4 @@
-<link rel="import" href="../../polymer-intl.html">
+<link rel="import" href="../../formatjs-behavior.html">
 
 <dom-module id="custom-formatter">
 
@@ -50,8 +50,8 @@
     ],
     
     behaviors: [
-      Polymer.intlBehavior,
-      Polymer.intlFormatterBehavior
+      Polymer.formatJSBehavior,
+      Polymer.formatJSParserBehavior
     ],
     
     _updateData: function(locale, items, MESSAGES){

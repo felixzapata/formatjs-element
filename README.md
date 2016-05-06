@@ -1,4 +1,4 @@
-# polymer-intl
+# formatjs-element
 
 Polymer integration with [Format.JS](http://formatjs.io/) library
 

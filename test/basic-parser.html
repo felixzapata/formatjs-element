@@ -20,28 +20,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../test-fixture/test-fixture.html">
 
     <!-- Step 1: import the element to test -->
-    <link rel="import" href="test-formatter.html">
-    <link rel="import" href="test-formatter-custom-parse.html">
+    <link rel="import" href="test-parser.html">
+    <link rel="import" href="test-parser-custom-parser.html">
   </head>
   <body>
 
     
     <test-fixture id="formatter">
       <template is="dom-template">
-        <test-formatter msg="{{msg}}"></test-formatter>
+        <test-parser msg="{{msg}}"></test-parser>
       </template>
     </test-fixture>
     
     <test-fixture id="formatter-custom-parse">
       <template is="dom-template">
-        <test-formatter-custom-parse msg="{{msg}}"></test-formatter-custom-parse>
+        <test-parser-custom-parser msg="{{msg}}"></test-parser-custom-parser>
       </template>
     </test-fixture>
     
     
 
     <script>
-      suite('Polymer.intlFormatterBehavior', function() {
+      suite('Polymer.formatJSParserBehavior', function() {
         
         test.only('should use basic text', function() {
           var example = { 'notShowAgain': 'Do not show again this message' };

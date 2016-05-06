@@ -1,29 +1,29 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="polymer-intl-import.html">
-<link rel="import" href="polymer-intl-formatter.html">
+<link rel="import" href="formatjs-import.html">
+<link rel="import" href="formatjs-parser-behavior.html">
 
 <script>
   (function() {
     'use strict';
 
   /**
-   * intl-behavior
+   * formatjs-behavior
    * =======================
    *
-   * `Polymer.intlBehavior` provides a normalized interface to localize values using Format.JS library.
+   * `Polymer.formatJSBehavior` provides a normalized interface to localize values using Format.JS library.
    *
    * #### Usage
    *
    * 1) Add Polymer.l10nBehavior to the behaviors list in the JS file or script of your component:
    *
    * ```js
-   * behaviors: [Polymer.intlBehavior]
+   * behaviors: [Polymer.formatJSBehavior]
    * ```
    *
    * 2) Import the behavior in your HTML:
    *
    * ```html
-   * <link rel="import" href="../polymer-intl/polymer-intl-behavior.html">
+   * <link rel="import" href="../formatjs-element/formatjs-behavior.html">
    * ```
    *
    * #### How to translate
@@ -77,10 +77,10 @@
    *       };
    * ```
    * @demo demo/index.html
-   * @polymerBehavior Polymer.intlBehavior
+   * @polymerBehavior Polymer.formatJSBehavior
    */
 
-    Polymer.intlBehavior = {
+    Polymer.formatJSBehavior = {
    
         properties: {
           defaultLang: {

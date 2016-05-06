@@ -1,5 +1,5 @@
 {
-  "name": "polymer-intl",
+  "name": "formatjs-element",
   "version": "0.0.1",
   "authors": [
     "Félix Zapata <fzberlinches@gmail.com>"
@@ -14,9 +14,9 @@
     "l10n",
     "i18n"
   ],
-  "main": "polymer-intl.html",
+  "main": "formatjs-element.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/felixzapata/polymer-intl/",
+  "homepage": "https://github.com/felixzapata/formatjs-element/",
   "ignore": [
     "/.*",
     "/test/"

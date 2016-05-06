@@ -8,9 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../polymer-intl-formatter.html">
+<link rel="import" href="../formatjs-parser-behavior.html">
 
-<dom-module id="test-formatter">
+<dom-module id="test-parser-custom-parser">
 
   <template>
     <p>{{formatted}}</p>
@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'test-formatter',
+    is: 'test-parser-custom-parser',
      properties:{
       msg:{
         type:Object,
@@ -35,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     behaviors: [
-      Polymer.intlFormatterBehavior
+      Polymer.formatJSParserBehavior
     ],
     
     _msgChanged: function(newValue){
@@ -44,10 +44,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.set('formatted', formatMsg);
     },
     
-    ready:function(){
-      
+    _myCustomParsePluralForThisComponent: function(values){
+      var pluralFormat = '';
+      var partial = '';
+      for(var i in values){
+        if(values.hasOwnProperty(i)) {
+          partial = values[i].replace(/{{.*?}}/g, '#');
+          pluralFormat += ' ' + i + ' {' + partial + '}';
+        }
+      }
+      return pluralFormat;
+    },
+    
+    parseSimple: function(key){
+      var partial = this.messages[key];
+      if(typeof partial === 'object'){
+        formattedText = this._myCustomParsePluralForThisComponent(partial);
+        this.messages[key] = '{' + key  + ', plural,' + formattedText + '}';
+      }
+      return this.messages[key];
     }
-
+    
+   
   });
 
 </script>
