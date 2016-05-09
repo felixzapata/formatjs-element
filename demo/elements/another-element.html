@@ -35,7 +35,7 @@
                   'numPhotos':{
                     'format': 'plural',
                     'values': {
-                      'zero' : 'no photos',
+                      '=0' : 'no photos',
                       'one' : 'one photo',
                       'other' : '# photos'
                     }
@@ -48,14 +48,14 @@
             },
             'es-ES': {
               'photos': {
-                'message': 'El {takenDate} sacó {numPhotos}.',
+                'message': 'El {takenDate} {numPhotos}.',
                 'syntax': {
                   'numPhotos':{
                     'format': 'plural',
                     'values': {
-                      'zero' : 'ninguna foto',
-                      'one' : 'una foto',
-                      'other' : '# fotos.'
+                      '=0' : 'no sacó ninguna foto',
+                      'one' : 'sacó una foto',
+                      'other' : 'sacó # fotos.'
                     }
                   },
                   'takenDate': {
