@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>formatjs-element Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="elements/my-element.html">
+  </head>
+  <body>
+
+    <p>An example of <code>formatjs-element</code> behavior:</p>
+    
+    <template is="dom-bind" id="app">
+    
+      <my-element name="Annie" photos="{{photos}}" locale="{{locale}}"></my-element>
+      
+      <hr>
+      
+      
+      <label for="photos">Photos: </label>
+      <select id="photos" on-change="setPhotos">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="3" selected="selected">3</option>
+        <option value="1000">1000</option>
+      </select>
+      
+      <label for="locale">Locale:</label>
+      <select id="locale" on-change="setLocale">
+        <option value="cs-CZ">cs-CZ</option>
+        <option value="en-US">en-US</option>
+        <option value="es-AR" selected="selected">es-AR</option>
+        <option value="fr-FR">fr-FR</option>
+        <option value="ja-JP">ja-JP</option>
+        <option value="pt-BR">pt-BR</option>  
+      </select>
+    
+    </template>
+    
+    <script>
+      var app = document.querySelector('#app');
+      app.photos = 3;
+      app.name = 'Annie';
+      app.locale = 'es-AR';
+      
+      app.setPhotos = function(){
+        app.photos = parseInt(document.querySelector('#photos').value,10);
+      }
+      
+      app.setLocale = function(){
+        app.locale = document.querySelector('#locale').value;
+      }
+      
+      
+    </script>
+
+  </body>
+</html>

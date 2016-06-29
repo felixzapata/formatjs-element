@@ -1,0 +1,14 @@
+{
+  "name": "intl-messageformat-parser",
+  "homepage": "https://github.com/yahoo/intl-messageformat-parser",
+  "version": "1.2.0",
+  "_release": "1.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.0",
+    "commit": "6241aa2cdeeabdbfb2590f879c4a24b8a8cc6a42"
+  },
+  "_source": "git://github.com/yahoo/intl-messageformat-parser.git",
+  "_target": "^1.2.0",
+  "_originalSource": "yahoo/intl-messageformat-parser"
+}

@@ -1,0 +1,47 @@
+{
+  "name": "formatjs-element",
+  "authors": [
+    "Félix Zapata <fzberlinches@gmail.com>"
+  ],
+  "description": "Polymer integration using Format.JS library.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "localization",
+    "format",
+    "l10n",
+    "i18n"
+  ],
+  "main": "formatjs-element.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/felixzapata/formatjs-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "intl": "andyearnshaw/Intl.js#^1.1.0",
+    "intl-format-cache": "yahoo/intl-format-cache#^2.0.5",
+    "intl-messageformat": "yahoo/intl-messageformat#^1.3.0",
+    "intl-messageformat-parser": "yahoo/intl-messageformat-parser#^1.2.0",
+    "intl-relativeformat": "yahoo/intl-relativeformat#^1.3.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "^3.4.0"
+  },
+  "_release": "08db582d3c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "08db582d3cd8a84d4d496a47a882acb6f5225769"
+  },
+  "_source": "https://github.com/felixzapata/formatjs-element.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/felixzapata/formatjs-element.git",
+  "_direct": true
+}

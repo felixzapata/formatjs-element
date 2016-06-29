@@ -1,0 +1,208 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+  (function() {
+    'use strict';
+    
+    /**
+     * formatjs-parser-behavior
+     * =======================
+     *
+     * `Polymer.formatJSParserBehavior` allow to parse a JSON object into ICU Message syntax and CLDR locale data.
+     *
+     * #### Usage
+     *
+     * 1) Add Polymer.formatJSParserBehavior to the behaviors list in the JS file or script of your component:
+     *
+     * ```js
+     * behaviors: [Polymer.formatJSParserBehavior]
+     * ```
+     *
+     * 2) Import the behavior in your HTML:
+     *
+     * ```html
+     * <link rel="import" href="../formatjs-element/formatjs-parse-behavior.html">
+     * ```
+     *
+     *
+     * @polymerBehavior
+     * @demo demo/index.html
+    */
+    
+    if (!Object.assign) {
+      Object.defineProperty(Object, 'assign', {
+        enumerable: false,
+        configurable: true,
+        writable: true,
+        value: function(target, firstSource) {
+          'use strict';
+          if (target === undefined || target === null) {
+            throw new TypeError('Cannot convert first argument to object');
+          }
+
+          var to = Object(target);
+          for (var i = 1; i < arguments.length; i++) {
+            var nextSource = arguments[i];
+            if (nextSource === undefined || nextSource === null) {
+              continue;
+            }
+
+            var keysArray = Object.keys(Object(nextSource));
+            for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+              var nextKey = keysArray[nextIndex];
+              var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+              if (desc !== undefined && desc.enumerable) {
+                to[nextKey] = nextSource[nextKey];
+              }
+            }
+          }
+          return to;
+        }
+      });
+    }
+
+    Polymer.formatJSParserBehavior = {
+   
+      /**
+      * Messages to be parsed
+      *
+      * @param {Object}
+      */
+      properties: {
+        messages: {
+          type: Object
+        }
+      },
+      
+      /**
+      * Returns if the message contain values for plurals.
+      *
+      * @param {Object} messages Strings to translate.
+      * @param {String} key Value to find inside the messages
+      * @return {Boolean}.
+      */
+      _noSyntax: function(key){
+        return !this.messages[key].hasOwnProperty('message');
+      },
+      
+      /**
+      * Returns the value of a property
+      *
+      * @param {Object} object
+      * @param {String} key
+      * @return {String}.
+      */
+      _get: function(obj, property){
+        if(obj.hasOwnProperty(property)){
+          return obj[property];
+        }else {
+          return '';
+        }
+      },
+      
+      /**
+      * Set the type
+      *
+      * @param {String} key messages Strings to translate.
+      * @param {String} type. It can be "number", "date", "time" or custom
+      * @return {String}.
+      */
+      _parseType: function(key, type){
+        this.message = this.message.replace('{' + key  + '}', '{' + key  + ', ' + type + '}', 'g')
+        return this.message;
+      },
+      
+      /**
+      * Parse the text according the format 
+      *
+      * @param {String} format. It can be "plural", "select" or "selectordinal"
+      * @return {String}.
+      */
+      _parseFormat: function(format, values){
+        if(format === 'plural'){
+          return this._parsePlural(values);
+        }
+      },
+      
+      /**
+      * Parse the text following {plural} Format.
+      *
+      * @param {Object} key Value to find inside the messages
+      * @return {String} For example: "zero {no value} one {one value} other {# myVarWithValues}"
+      */
+      _parsePlural: function(values){
+        var pluralFormat = '';
+        for(var i in values){
+          if(values.hasOwnProperty(i)) {
+            pluralFormat += ' ' + i + ' {' + values[i] + '}';
+          }
+        }
+        return pluralFormat;
+      },
+      
+      /**
+      * Parse.
+      *
+      * @param {String} key Variable to find inside the messages object
+      * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
+      */
+      _parse: function(key){           
+        this.message = this.messages[key].message;
+        var formattedText = key + ': ';
+        var syntax = this.messages[key].syntax;
+        var values;
+        var type;
+        var format;
+        
+        for(var value in syntax){
+          if(syntax.hasOwnProperty(value)){
+            format = this._get(syntax[value], 'format');
+            values = this._get(syntax[value], 'values');
+            type = this._get(syntax[value], 'type');
+          }
+          if(format !== ''){
+            formattedText = this._parseFormat(format, values);
+            this.message = this.message.replace('{' + value  + '}', '{' + value  + ', ' + format + ',' + formattedText + '}', 'g');
+          } 
+          if (type !== ''){
+            this.message = this._parseType(value, type);
+          } 
+        }
+        return this.message;
+      },
+
+      /**
+      * Parse a simple message (no plurals nor dates...).
+      *
+      * @param {String} key Value to find inside the messages
+      * @return {String} Formated text following ICU Message syntax and CLDR locale data. 
+      */
+      parseSimple: function(key){
+        return this.messages[key];
+      },
+      
+      /**
+      * Format a message following ICU Message syntax and CLDR locale data
+      *
+      * @param {Object} messages Strings to translate.
+      * @return {Object} Formatted text. 
+      */
+      formatIntl: function(msg){
+        var obj = {};
+        this.messages = Object.assign({}, msg);
+        for(var i in this.messages){
+          if(msg.hasOwnProperty(i)){
+            if(this._noSyntax(i)){
+              obj[i] =  this.parseSimple(i)
+            } else {
+              obj[i] = this._parse(i);
+            }
+          }
+        }
+        return obj;  
+      }
+         
+    };
+  })();
+
+</script>

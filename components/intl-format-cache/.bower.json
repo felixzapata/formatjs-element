@@ -1,0 +1,14 @@
+{
+  "name": "intl-format-cache",
+  "homepage": "https://github.com/yahoo/intl-format-cache",
+  "version": "2.0.5",
+  "_release": "2.0.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.5",
+    "commit": "c8134737301b40ea70e630f3d9ceab1478ddc810"
+  },
+  "_source": "git://github.com/yahoo/intl-format-cache.git",
+  "_target": "^2.0.5",
+  "_originalSource": "yahoo/intl-format-cache"
+}

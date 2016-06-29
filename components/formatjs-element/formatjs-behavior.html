@@ -1,0 +1,119 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="formatjs-import.html">
+<link rel="import" href="formatjs-parser-behavior.html">
+
+<script>
+  (function() {
+    'use strict';
+
+  /**
+   * formatjs-behavior
+   * =======================
+   *
+   * `Polymer.formatJSBehavior` provides a normalized interface to localize values using Format.JS library.
+   *
+   * #### Usage
+   *
+   * 1) Add Polymer.l10nBehavior to the behaviors list in the JS file or script of your component:
+   *
+   * ```js
+   * behaviors: [Polymer.formatJSBehavior]
+   * ```
+   *
+   * 2) Import the behavior in your HTML:
+   *
+   * ```html
+   * <link rel="import" href="../formatjs-element/formatjs-behavior.html">
+   * ```
+   *
+   * #### How to translate
+   * 
+   * `message`: is the complete text to translate. It can include all the variables necessary to show dynamic values.
+   * 
+   * `syntax`: this object has the instructions to parse the string following the ICU Message syntax and CLDR locale data.
+   * 
+   * For each variable you should define the format ('plural', 'selectordinal' or 'select')
+   * 
+   * #### Examples
+   * 
+   * ```javascript
+   *      var example = 
+   *         'photos': {
+   *           'message': 'You took {numPhotos} on {takenDate}.',
+   *           'syntax': {
+   *             'numPhotos':{
+   *               'format': 'plural',
+   *               'values': {
+   *                 'zero' : 'no photos',
+   *                 'one' : 'one photo',
+   *                 'other' : '# photos'
+   *               }
+   *             },
+   *             'takenDate': {
+   *               'type': 'date, long'
+   *             }
+   *           }
+   *         }
+   * ``` 
+   *
+   * ```javascript
+   *      var example = { 'notShowAgain': 'Do not show again this message' };
+   * ```
+   * 
+   * ```javascript
+   *      var example = { 'foobar': 'Hello {who}' };
+   * ```
+   * 
+   * ```javascript
+   *      var example = { 
+   *         'foobar': {
+   *           'message': 'I have {numCats} cats.',
+   *           'syntax': {
+   *             'numCats': {
+   *               'type': 'number'
+   *             }
+   *           } 
+   *         }
+   *       };
+   * ```
+   * @demo demo/index.html
+   * @polymerBehavior Polymer.formatJSBehavior
+   */
+
+    Polymer.formatJSBehavior = {
+   
+        properties: {
+          defaultLang: {
+            type: String,
+            value: 'en-US'
+          }
+        },
+
+        attached: function() {
+          if (!window.Intl && typeof window.Intl !== 'object'){
+            console.log('You have no support for ECMAScript Internationalization API Specification');
+          }
+        },
+        ready: function(){
+          
+        },
+        /**
+        * Translate a string.
+        *
+        * @param {String} msg String to translate.
+        * @param {Object} values Values to pass to the message.
+        * @param {String} language (optional) The language to translate the text. By defualt, the language to localize is English.
+        * @return {String} Localized text.
+        */
+        translate: function(msg, values, language){
+          if (typeof language === 'undefined') {
+            language = this.defaultLang;
+          }
+          var intl = new IntlMessageFormat(msg, language);
+          return intl.format(values);
+          
+        }
+        
+        
+    };
+  })();</script>
